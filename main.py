@@ -6,6 +6,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, make_scorer
 from sklearn.model_selection import cross_val_score, KFold
+import matplotlib.pyplot as plt
 
 # -----------------------------
 
@@ -67,6 +68,16 @@ class HousePriceModel:
             "Mean_R2": r2_scores.mean()
         }
 
+    def plot_predictions(self, df: pd.DataFrame):
+        X = df.drop("price", axis=1)
+        y = df["price"]
+        preds = self.pipeline.predict(X)
+        plt.scatter(y, preds)
+        plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--')
+        plt.xlabel("Actual Price")
+        plt.ylabel("Predicted Price")
+        plt.title("Actual vs Predicted")
+        plt.show()
 
 
 df = pd.read_csv("libraries/kc_house_data.csv")
@@ -83,3 +94,6 @@ print("Evaluation metrics:", metrics)
 # cross-validation
 cv_metrics = house_model.cross_validate(df, cv=5)
 print("Cross-validation results:", cv_metrics)
+
+# visual
+house_model.plot_predictions(df)
