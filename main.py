@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, m
 from sklearn.model_selection import cross_val_score, KFold
 import matplotlib.pyplot as plt
 
-# -----------------------------
+# ------------------------------
 
 class ColumnDropper(BaseEstimator, TransformerMixin):
     def __init__(self, columns_to_drop):
